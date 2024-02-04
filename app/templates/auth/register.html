@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Reģistrēties{% endblock %}
+{% block Link %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+{% endblock %}
+
+{% block content %}
+<div class="container-m d-flex align-content-center justify-content-center flex-wrap height-100vh">
+    <form class="form" action="/register" autocomplete="off" method="POST">
+
+        <div class="form-group mb-3">
+            <label for="email" class="form-label">E-pasts</label>
+            <input type="email" name="email" id="email" class="form-control" autocomplete="current-email" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="password" class="form-label">Parole</label>
+            <input type="password" name="password" id="password" class="form-control" autocomplete="current-password" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="confirm_password" class="form-label">Paroles apstiprināšana</label>
+            <input type="password" name="confirm_password" id="confirm_password" class="form-control" autocomplete="current-password" required>
+            <i class="bi bi-eye-slash" id="togglePassword"></i>
+        </div>
+
+        {% if message %}
+        <div class="form-group mb-3">
+            <div class="alert alert-danger" role="alert">{{ message }}</div>
+        </div>
+        {% endif %}
+
+        <div class="d-flex flex-column align-items-center">
+            <input type="submit" value="Reģistrēties" class="btn btn-primary w-100 mt-3">
+            <p class="mt-3">Jums jau ir konts? <a href="/login" class="link-primary">Pieteikties</a></p>
+        </div>
+    </form>
+</div>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}

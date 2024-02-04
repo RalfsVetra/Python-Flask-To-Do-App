@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Sākums{% endblock %}
+
+{% block content %}
+<header role="banner" id="header" class="header">
+  <div class="header__content header__sides">
+      <div class="header__sides__aside header__user">
+          <a role="button" class="button" href="/logout">
+              Izrakstīties
+          </a>
+      </div>
+  </div>
+</header>
+
+<div class="container-m d-flex align-content-center justify-content-center flex-wrap height-100vh">
+    <div class="form d-flex flex-column">
+        <form method="POST">
+            <label for="note" class="form-label">Piezīme</label>
+            <textarea name="note" id="note" class="form-control" required></textarea>
+
+            <input type="submit" value="Pievienot" class="btn btn-primary w-100 mt-3">
+        </form>
+
+        <ul class="list-group list-group-flush mt-4" id="notes">
+            {% for note_data in notes_data %}
+                <div id="block" class="d-flex justify-content-between mt-2 align-items-center">
+                    <li class="list-unstyled">{{ note_data[0] }}</li>
+
+                    <form action="{{ url_for('home.delete_note') }}" method="POST">
+                        <input type="hidden" name="note_id" value="{{ note_data[1] }}">
+                        <button type="submit" class="btn btn-danger">Dzēst</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% endblock %}
