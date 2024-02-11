@@ -24,10 +24,10 @@
         <ul class="list-group list-group-flush mt-4" id="notes">
             {% for note_data in notes_data %}
                 <div id="block" class="d-flex justify-content-between mt-2 align-items-center">
-                    <li class="list-unstyled">{{ note_data[0] }}</li>
+                    <li class="list-unstyled">{{ note_data[1] }}</li>
 
                     <form action="{{ url_for('home.delete_note') }}" method="POST">
-                        <input type="hidden" name="note_id" value="{{ note_data[1] }}">
+                        <input type="hidden" name="note_id" value="{{ note_data[0] }}">
                         <button type="submit" class="btn btn-danger">Dzēst</button>
                     </form>
                 </div>

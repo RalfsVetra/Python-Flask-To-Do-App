@@ -2,14 +2,14 @@ import sqlite3
 import contextlib
 
 
-def c_connection(db_f: str) -> None:
+def connection(db_f: str) -> None:
     try:
         conn = sqlite3.connect(db_f)
     finally:
         conn.close()
 
 
-def c_table(db_f: str) -> None:
+def accounts(db_f: str) -> None:
     sql_query = '''
         CREATE TABLE IF NOT EXISTS accounts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,7 +23,7 @@ def c_table(db_f: str) -> None:
             conn.execute(sql_query)
 
 
-def c_table_n(db_f: str) -> None:
+def notes(db_f: str) -> None:
     sql_query = '''
         CREATE TABLE IF NOT EXISTS notes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,7 +38,7 @@ def c_table_n(db_f: str) -> None:
             conn.execute(sql_query)
 
 
-def c_table_a(db_f: str) -> None:
+def login_attempts(db_f: str) -> None:
     sql_query = '''
         CREATE TABLE IF NOT EXISTS login_attempts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,8 +52,8 @@ def c_table_a(db_f: str) -> None:
             conn.execute(sql_query)
 
 
-def s_database(db_f: str) -> None:
-    c_connection(db_f)
-    c_table(db_f)
-    c_table_n(db_f)
-    c_table_a(db_f)
+def setup_database(db_f: str) -> None:
+    connection(db_f)
+    accounts(db_f)
+    notes(db_f)
+    login_attempts(db_f)

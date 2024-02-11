@@ -14,6 +14,14 @@ database = "database.db"
 def home():
     email = session.get('email')
 
+    if request.method == 'GET':
+        sql_query = 'SELECT id, note FROM notes WHERE user_id = (SELECT id FROM accounts WHERE email = ?)'
+        with contextlib.closing(sqlite3.connect(database)) as conn:
+            with conn:
+                notes_data = conn.execute(sql_query, (email,)).fetchall()
+
+        return render_template('home/home.html', notes_data=notes_data)
+
     if request.method == 'POST':
         note = request.form.get('note')
 
@@ -28,23 +36,9 @@ def home():
                 conn.execute(sql_query, (user_id, note))
 
         return redirect('/')
-    else:
-        sql_query = 'SELECT note FROM notes WHERE user_id = (SELECT id FROM accounts WHERE email = ?)'
-        with contextlib.closing(sqlite3.connect(database)) as conn:
-            with conn:
-                notes = conn.execute(sql_query, (email,)).fetchall()
-
-        sql_query = 'SELECT id, note FROM notes WHERE user_id = (SELECT id FROM accounts WHERE email = ?)'
-        with contextlib.closing(sqlite3.connect(database)) as conn:
-            with conn:
-                notes_id = conn.execute(sql_query, (email,)).fetchall()
-
-        notes_data = [(note[0], note_id[0]) for note, note_id in zip(notes, notes_id)]
-
-        return render_template('home/home.html', notes_data=notes_data)
 
 
-@home_bp.route('/delete-note', methods=['GET', 'POST'])
+@home_bp.route('/delete-note', methods=['GET','POST'])
 @login_protected
 def delete_note():
     if request.method != 'POST':
